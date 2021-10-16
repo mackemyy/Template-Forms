@@ -1,0 +1,227 @@
+<div class="split left">
+  <div class="container">
+    <h2>{{title}}</h2>
+    <hr>
+    <div class="row">
+      <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+        <form (ngSubmit) = "onSubmit()" #f="ngForm">
+          <div id="credentials" ngModelGroup="credentials" #credentials="ngModelGroup" >
+            <div class="form-group">
+              <legend>CREDENTIALS</legend>
+              <label for="username">Username</label> <br>
+              <input
+                type="text"
+                id="username"
+                class="form-control"
+                placeholder="Type your username here."
+                ngModel name = "username"
+                required
+                #username = "ngModel"
+                minlength="7"
+                />
+            </div>
+            <div *ngIf="!username.valid && username.touched" class="help-block">Username must be atleast 7 characters long.</div>
+            <button
+              class="btn btn-dark"
+              type="button"
+              id="suggest"
+              (click)="suggestUsername()"
+              >Suggest a Username
+            </button>
+            <div class="form-group">
+              <label for="password">Password</label> <br>
+              <input
+                type="password"
+                id="password"
+                class="form-control"
+                placeholder="Type your password here."
+                ngModel name = "password"
+                #password = "ngModel"
+                required
+                minlength="7"
+                />
+            </div>
+            <div *ngIf="!password.valid && password.touched" class="help-block">Password must be atleast 7 characters long.
+            </div>
+            <div class="form-group">
+              <label for="confirmPass">Confirm Password</label> <br>
+              <input
+                type="password"
+                id="confirmPass"
+                class="form-control"
+                placeholder="Please re-type your password here."
+                ngModel name = "confirmPass"
+                #confirmPass = "ngModel"
+                required
+                />
+            </div>
+            <div *ngIf="(confirmPass.value !== password.value) && confirmPass.touched" class="help-block">Password doesn't match. Please try again.
+            </div>
+          </div>
+
+          <hr>
+
+          <div id="userInfo" ngModelGroup="userInfo" #userInfo="ngModelGroup">
+            <div class="form-group">
+              <legend>USER INFORMATION</legend>
+              <label for="email">Email</label> <br>
+              <input
+                type="text"
+                id="email"
+                class="form-control"
+                placeholder="example@gmail.com"
+                ngModel name = "email"
+                #email = "ngModel"
+                required
+                email
+                />
+            </div>
+            <div *ngIf="!email.valid && email.touched" class="help-block">Please input a VALID email address.
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone Number: +63</label> <br>
+              <input
+                type="number"
+                id="phone"
+                class="form-control"
+                placeholder="9123456789"
+                [pattern]="phonePattern"
+                ngModel name = "phone"
+                #phone = "ngModel"
+                required
+                minlength=10
+                />
+            </div>
+            <div *ngIf="phone.errors && !isValidForm" [ngClass]="'error'" class="help-block">
+              <div *ngIf="phone.errors.pattern">
+                Please input a VALID phone number with 10 digits.
+              </div>
+            </div>
+          </div>
+
+          <hr>
+
+          <div id="otherInfo" ngModelGroup="otherInfo" #otherInfo="ngModelGroup">
+            <div class="form-group">
+              <legend>OTHER INFORMATION</legend>
+              <label for="secret">Secret Question</label> <br>
+              <select
+                name="secret"
+                id="secret"
+                class="form-control"
+                required
+                [(ngModel)] = "defaultQuestion"
+                >
+                <option value="bff">Who is your BestFriend?</option>
+                <option value="pet">What is the name of your First Pet?</option>
+                <option value="teacher">Who is your favourite Teacher?</option>
+                <option value="movie">What is your all-time Favourite Movie?</option>
+              </select>
+              <label for="secretAnswer">Your Answer:</label> <br>
+              <textarea
+                name="secretAnswer"
+                id="secretAnswer"
+                rows="3"
+                class="form-control"
+                [(ngModel)] = "secretAnswer"
+                required
+              ></textarea>
+            </div>
+            <p>Gender</p>
+            <div class="radio" *ngFor="let gender of genders">
+              <label for="">
+              <input
+                type="radio"
+                name="gender"
+                ngModel 
+                [value] = "gender"
+                required
+                />
+                {{gender}}
+              </label> 
+            </div>
+            <div *ngIf="!otherInfo.valid && otherInfo.touched" class="help-block">Please answer all required fields in this section.
+            </div>
+          </div>
+
+          <hr>
+
+          <div id="jobInfo" ngModelGroup="jobInfo" #jobInfo="ngModelGroup">
+            <div class="form-group">
+              <legend>JOB INFORMATION</legend>
+              <label for="job">Job</label> <br>
+              <input
+                type="text"
+                id="job"
+                class="form-control"
+                placeholder="Type your current job here."
+                ngModel name = "job"
+                #job = "ngModel"
+                required
+                />
+            </div>
+            <div *ngIf="!job.valid && job.touched" class="help-block">Please input your current job.
+            </div>
+            <div class="form-group">
+              <label for="jobDes">Job Description</label> <br>
+              <input
+                type="text"
+                id="jobDes"
+                class="form-control"
+                placeholder="Type a small description of your job."
+                ngModel name = "jobDes"
+                #jobDes = "ngModel"
+                required
+                />
+            </div>
+            <div *ngIf="!jobDes.valid && jobDes.touched" class="help-block">Please input a description to your job.
+            </div>
+            <div class="form-group">
+              <label for="salary">Salary</label> <br>
+              <input
+                type="number"
+                id="salary"
+                class="form-control"
+                placeholder="Type in your annual salary."
+                ngModel name = "salary"
+                #salary = "ngModel"
+                required
+                />
+            </div>
+            <div *ngIf="!salary.valid && salary.touched" class="help-block">Please input your salary.
+            </div>
+            </div>
+          <button [disabled]="!f.valid || (confirmPass.value !== password.value)" class="btn btn-dark" type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<div class="split right">
+  <div class="container">
+    <h2>{{title2}}</h2>
+    <hr>
+    <div class="col-xs-12" *ngIf = "isValidForm">
+    <br><p class="group">CREDENTIALS</p>
+     <p>Username: {{user.username}} </p>
+     <p>Password: {{user.password}} </p> <br>
+     <p class="group">USER INFORMATION</p> 
+     <p>Email: {{user.email}} </p>
+     <p>Phone Number: +63 {{user.phone}} </p> <br>
+     <p class="group">OTHER INFORMATION</p>
+     <p>Secret Question: {{user.secret}} </p>
+     <p>Secret Answer: {{user.answer}} </p>
+     <p>Gender: {{user.gender}} </p><br>
+     <p class="group">JOB INFORMATION</p>
+     <p>Job: {{user.job}} </p>
+     <p>Job Description: {{user.jobDes}} </p>
+     <p>Salary ₱: {{user.salary}} </p>
+    </div>
+  </div>
+</div>
